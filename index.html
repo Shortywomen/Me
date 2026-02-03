@@ -17,7 +17,7 @@
             background-color: var(--deep-blue);
             color: var(--text);
             display: flex;
-            flex-direction: column; /* Erlaubt Elemente übereinander */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -25,15 +25,15 @@
             background-image: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
         }
 
-        /* Dein Name über der Box */
         .player-name {
             color: var(--gold);
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
-            letter-spacing: 2px;
+            font-size: 3rem; /* Extra groß */
+            font-weight: 900;
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+            letter-spacing: 3px;
             text-align: center;
+            text-transform: uppercase;
         }
 
         .main-card {
@@ -47,11 +47,20 @@
             text-align: center;
         }
 
+        /* Sound-Glocke Animation */
+        .bell-icon {
+            font-size: 3rem;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .bell-icon:hover { transform: scale(1.2) rotate(15deg); }
+        .bell-icon:active { transform: scale(0.9); }
+
         .header h1 {
             color: var(--gold);
             margin: 10px 0 5px;
             letter-spacing: 3px;
-            font-size: 1.5rem;
         }
 
         .quote-box {
@@ -61,7 +70,6 @@
             border-radius: 8px;
             margin: 20px 0;
             border-left: 3px solid var(--gold);
-            font-size: 0.95rem;
         }
 
         .stats-container {
@@ -71,47 +79,25 @@
             margin-bottom: 25px;
         }
 
-        .stat-card {
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 6px;
-        }
+        .stat-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; }
+        .stat-label { font-size: 0.7rem; color: var(--gold); }
 
-        .stat-label { font-size: 0.7rem; text-transform: uppercase; color: var(--gold); opacity: 0.8; }
-        .stat-value { font-weight: bold; font-size: 0.9rem; }
-
-        .progress-section {
-            text-align: left;
-            margin: 20px 0;
-        }
-
-        .bar-label { font-size: 0.8rem; margin-bottom: 5px; display: block; }
+        .progress-section { text-align: left; margin: 20px 0; }
         .bar-bg { background: #000; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
         .bar-fill { background: var(--gold); height: 100%; border-radius: 4px; }
 
-        .rules {
-            text-align: left;
-            font-size: 0.85rem;
-            background: rgba(241, 196, 15, 0.05);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .rules ul { padding-left: 20px; margin: 5px 0; }
+        .rules { text-align: left; font-size: 0.85rem; background: rgba(241, 196, 15, 0.05); padding: 15px; border-radius: 8px; }
 
         .btn {
             display: block;
             background: var(--gold);
             color: black;
             text-decoration: none;
-            padding: 12px;
+            padding: 15px;
             border-radius: 6px;
             font-weight: bold;
             margin-top: 25px;
-            transition: 0.3s;
         }
-
-        .btn:hover { background: #fff; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -120,7 +106,7 @@
 
     <div class="main-card">
         <div class="header">
-            <div style="font-size: 2rem;">🔔</div>
+            <div class="bell-icon" onclick="playBard()">🔔</div>
             <h1>OOTAY</h1>
             <div style="opacity: 0.6; font-size: 0.8rem;">~ The Wandering Caretaker ~</div>
         </div>
@@ -132,34 +118,39 @@
         <div class="stats-container">
             <div class="stat-card">
                 <div class="stat-label">Winrate</div>
-                <div class="stat-value">Don't ask.</div>
+                <div>Fragile.</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">KDA</div>
-                <div class="stat-value">0 / 10 / 2</div>
+                <div>0 / 10 / 2</div>
             </div>
         </div>
 
         <div class="progress-section">
-            <span class="bar-label">ADC Mental State: 0%</span>
-            <div class="bar-bg"><div class="bar-fill" style="width: 5%;"></div></div>
-            
-            <span class="bar-label">Chimes Collected: 100%</span>
+            <span style="font-size: 0.8rem;">ADC Mental State: 0%</span>
+            <div class="bar-bg"><div class="bar-fill" style="width: 2%;"></div></div>
+            <span style="font-size: 0.8rem;">Chimes: 100%</span>
             <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
         </div>
 
         <div class="rules">
             <strong>The Bard Laws:</strong>
-            <ul>
+            <ul style="margin: 5px 0; padding-left: 20px;">
                 <li>My Ult only saves the enemies.</li>
-                <li>0/10 is just "Cosmic Spacing".</li>
+                <li>0/10 is "Cosmic Spacing".</li>
                 <li>The Jungle is my real home.</li>
-                <li>Chimes > Your Life.</li>
             </ul>
         </div>
 
         <a href="https://www.op.gg/summoners/euw/Shortywomen-MST" target="_blank" class="btn">VIEW LIVE INTING</a>
     </div>
+
+    <script>
+        function playBard() {
+            var audio = new Audio('https://static.wikia.nocookie.net/leagueoflegends/images/a/a8/Bard_Select.ogg');
+            audio.play();
+        }
+    </script>
 
 </body>
 </html>
