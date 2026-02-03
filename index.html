@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,187 +7,159 @@
     <style>
         :root {
             --gold: #f1c40f;
-            --deep-blue: #161b22;
-            --card-bg: #0d1117;
-            --text: #c9d1d9;
-            --border: #30363d;
+            --deep-blue: #0a0e17;
+            --card-bg: #1c2431;
+            --text: #e0e6ed;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: #0d1117;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--deep-blue);
             color: var(--text);
             display: flex;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            gap: 20px;
+            background-image: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+            gap: 30px;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        /* Container für die Memes */
-        .meme-container {
-            width: 200px;
-            height: 300px;
-            border-radius: 10px;
+        .player-name {
+            color: var(--gold);
+            font-size: clamp(1.5rem, 6vw, 3rem);
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(241, 196, 15, 0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            text-align: center;
+            z-index: 5;
+            flex-shrink: 0;
+        }
+
+        .meme-sidebar {
+            width: 280px;
+            height: 400px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid var(--border);
+            border: 2px solid rgba(241, 196, 15, 0.2);
+            background: rgba(0,0,0,0.4);
             transition: opacity 0.5s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #000;
         }
 
-        .meme-container img {
+        .meme-sidebar img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        /* Die Hauptkarte (wie in deinem Screenshot) */
-        .card {
-            background-color: var(--card-bg);
-            border: 2px solid var(--gold);
-            border-radius: 20px;
-            width: 450px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
+        .bell-icon { font-size: 3.5rem; cursor: pointer; transition: transform 0.2s; display: inline-block; }
+        .bell-icon:hover { transform: scale(1.1) rotate(10deg); }
 
-        .header h1 {
-            color: var(--gold);
-            font-size: 2.5rem;
-            margin: 10px 0;
-            letter-spacing: 2px;
-        }
+        .quote-box { font-style: italic; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid var(--gold); font-size: 0.95rem; }
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; }
+        .stat-label { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; margin-bottom: 5px; }
 
-        .quote {
-            background: rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 10px;
-            font-style: italic;
-            margin: 20px 0;
-            border-left: 4px solid var(--gold);
-        }
+        .progress-section { text-align: left; margin: 20px 0; font-size: 0.85rem; }
+        .bar-bg { background: #000; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; margin-bottom: 15px; }
+        .bar-fill { background: var(--gold); height: 100%; border-radius: 5px; box-shadow: 0 0 10px var(--gold); }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
+        .rules { text-align: left; font-size: 0.85rem; background: rgba(241, 196, 15, 0.08); padding: 15px; border-radius: 8px; border: 1px solid rgba(241, 196, 15, 0.1); }
+        .rules li { margin-bottom: 5px; }
 
-        .stat-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .stat-title {
-            color: var(--text);
-            font-weight: bold;
-            font-size: 0.8rem;
+        .btn {
             display: block;
-            margin-bottom: 5px;
-        }
-
-        .stat-value { color: var(--text); font-size: 0.9rem; }
-
-        .rules-list {
-            text-align: left;
-            margin-top: 25px;
-            font-size: 0.9rem;
-        }
-
-        .rules-list ul { padding-left: 20px; }
-        .rules-list li { margin-bottom: 8px; }
-
-        .btn-bell {
             background: var(--gold);
             color: #000;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 8px;
             font-weight: bold;
-            cursor: pointer;
-            font-size: 1.1rem;
-            margin-top: 20px;
-            transition: transform 0.2s;
+            margin-top: 25px;
+            transition: 0.3s;
+            text-transform: uppercase;
         }
+        .btn:hover { background: #fff; transform: scale(1.02); }
 
-        .btn-bell:hover { transform: scale(1.05); }
-
-        .footer-note {
-            font-size: 0.7rem;
-            opacity: 0.5;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 900px) {
-            body { flex-direction: column; }
-            .meme-container { display: none; }
+        @media (max-width: 1100px) {
+            body { flex-direction: column; padding-top: 120px; }
+            .meme-sidebar { width: 90%; height: 250px; }
+            .player-name { position: absolute; top: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="meme-container" id="leftMeme">
-        <img src="" alt="">
+    <div class="player-name">Shortywomen#MST</div>
+
+    <div class="meme-sidebar" id="leftMeme">
+        <img src="" alt="Meme Left">
     </div>
 
-    <div class="card">
+    <div class="main-card">
         <div class="header">
-            <span style="font-size: 2rem;">🔔✨</span>
-            <h1>OOTAY!</h1>
-            <div style="font-size: 0.8rem; opacity: 0.7;">"~ Bzzzzz-Wuuuuuuuuuu ~"</div>
+            <div class="bell-icon" onclick="playBard()">🔔</div>
+            <h1 style="color: var(--gold); margin: 5px 0; letter-spacing: 5px;">OOTAY</h1>
+            <div style="opacity: 0.7; font-size: 0.8rem; letter-spacing: 1px;">~ The Wandering Caretaker ~</div>
         </div>
 
-        <div class="quote">
-            "Ab Minute 3 bin ich sowieso weg. Such dir neue Eltern auf der Botlane."
+        <div class="quote-box">
+            "I'm leaving at minute 3 anyway. Go find some new parents on the botlane."
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-box">
-                <span class="stat-title">Winrate:</span>
-                <span class="stat-value">Frag nicht.</span>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-label">Winrate</div>
+                <div>Just don't ask...</div>
             </div>
-            <div class="stat-box">
-                <span class="stat-title">KDA:</span>
-                <span class="stat-value">0/10/2 (Perfekt)</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-title">Status:</span>
-                <span class="stat-value">Chimes sammeln</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-title">ADC Mental:</span>
-                <span class="stat-value">Explodiert</span>
+            <div class="stat-card">
+                <div class="stat-label">KDA</div>
+                <div>0 / 10 / 2</div>
             </div>
         </div>
 
-        <div class="rules-list">
-            <strong style="color: var(--gold);">Meine heiligen Regeln:</strong>
-            <ul>
-                <li>Meine Ult rettet nur die Gegner.</li>
-                <li>Wenn ich 0/10 stehe, ist das "Space-Spacing".</li>
-                <li>Der Jungle ist mein wahres Zuhause.</li>
-                <li>Ich kenne keinen Schmerz, ich kenne nur Glocken.</li>
+        <div class="progress-section">
+            <span>ADC Mental State: 0%</span>
+            <div class="bar-bg"><div class="bar-fill" style="width: 2%;"></div></div>
+            <span>Chimes Collected: 100%</span>
+            <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
+        </div>
+
+        <div class="rules">
+            <strong>The Bard Laws:</strong>
+            <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+                <li>My Ult only saves the enemies.</li>
+                <li>0/10 is "Cosmic Baiting".</li>
+                <li>It's always Jungle Gap.</li>
             </ul>
         </div>
 
-        <button class="btn-bell" onclick="playBard()">Hier Glocken sammeln</button>
-
-        <div class="footer-note">
-            Diese Seite wurde während eines Magical Journeys erstellt.
-        </div>
+        <a href="https://www.op.gg/summoners/euw/Shortywomen-MST" target="_blank" class="btn">VIEW LIVE INTING</a>
     </div>
 
-    <div class="meme-container" id="rightMeme">
-        <img src="" alt="">
+    <div class="meme-sidebar" id="rightMeme">
+        <img src="" alt="Meme Right">
     </div>
 
     <script>
@@ -195,38 +167,42 @@
             new Audio('https://static.wikia.nocookie.net/leagueoflegends/images/a/a8/Bard_Select.ogg').play();
         }
 
-        // Deine exakten Dateinamen aus dem Screenshot
+        // CORRECT FILENAMES ADDED HERE
         const memes = [
             "bard-memes-but-i-dont-play-ranked-v0-ti2x46zyh8pb1.webp",
             "bard-things-v0-b69y3lm2sxr81.webp",
             "CBrC97IDkmlk8aON5y0cdX1Y-Xldb11kTVKKkHXr3X0.webp",
             "love-playing-bard-v0-zkrnpeyl24vd1.webp",
-            "okf4mzixh6la1.webp",
-            "search-this-bard-meme-but-in-video-thnaks-if-you-found-it-v0-jqe7w817apma1.webp"
+            "okf4mzixh6la1.webp"
         ];
 
-        function updateMemes() {
-            const left = document.querySelector('#leftMeme img');
-            const right = document.querySelector('#rightMeme img');
+        function shuffleMemes() {
+            if (memes.length < 1) return;
             
+            const leftImg = document.querySelector('#leftMeme img');
+            const rightImg = document.querySelector('#rightMeme img');
+
             let r1 = Math.floor(Math.random() * memes.length);
             let r2 = Math.floor(Math.random() * memes.length);
-            while(r1 === r2) r2 = Math.floor(Math.random() * memes.length);
+            
+            if (memes.length > 1) {
+                while(r1 === r2) r2 = Math.floor(Math.random() * memes.length);
+            }
 
             document.getElementById('leftMeme').style.opacity = 0;
             document.getElementById('rightMeme').style.opacity = 0;
 
             setTimeout(() => {
-                left.src = memes[r1];
-                right.src = memes[r2];
+                leftImg.src = memes[r1];
+                rightImg.src = memes[r2];
                 document.getElementById('leftMeme').style.opacity = 1;
                 document.getElementById('rightMeme').style.opacity = 1;
             }, 500);
         }
 
-        if(memes.length > 0) {
-            updateMemes();
-            setInterval(updateMemes, 8000);
+        if (memes.length > 0) {
+            shuffleMemes();
+            setInterval(shuffleMemes, 6000);
         }
     </script>
 </body>
