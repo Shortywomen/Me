@@ -17,51 +17,48 @@
             background-color: var(--deep-blue);
             color: var(--text);
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             background-image: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+            gap: 40px;
+            padding: 20px;
         }
 
         .player-name {
             color: var(--gold);
-            font-size: 3rem; /* Extra groß */
+            font-size: 3rem;
             font-weight: 900;
-            margin-bottom: 25px;
-            text-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
-            letter-spacing: 3px;
+            position: absolute;
+            top: 20px;
+            width: 100%;
             text-align: center;
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
             text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
         .main-card {
             background: var(--card-bg);
-            width: 90%;
+            width: 100%;
             max-width: 450px;
             padding: 30px;
             border-radius: 15px;
             border: 1px solid rgba(241, 196, 15, 0.3);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
+            z-index: 5;
         }
 
-        /* Sound-Glocke Animation */
         .bell-icon {
             font-size: 3rem;
             cursor: pointer;
-            display: inline-block;
             transition: transform 0.2s;
+            display: inline-block;
         }
         .bell-icon:hover { transform: scale(1.2) rotate(15deg); }
-        .bell-icon:active { transform: scale(0.9); }
-
-        .header h1 {
-            color: var(--gold);
-            margin: 10px 0 5px;
-            letter-spacing: 3px;
-        }
 
         .quote-box {
             font-style: italic;
@@ -72,15 +69,9 @@
             border-left: 3px solid var(--gold);
         }
 
-        .stats-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
         .stat-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; }
-        .stat-label { font-size: 0.7rem; color: var(--gold); }
+        .stat-label { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; }
 
         .progress-section { text-align: left; margin: 20px 0; }
         .bar-bg { background: #000; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
@@ -97,6 +88,32 @@
             border-radius: 6px;
             font-weight: bold;
             margin-top: 25px;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #fff; transform: translateY(-2px); }
+
+        /* Meme Style */
+        .meme-sidebar {
+            width: 280px;
+            height: 380px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(241, 196, 15, 0.2);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .meme-sidebar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Mobile Fix */
+        @media (max-width: 1100px) {
+            body { flex-direction: column; padding-top: 100px; }
+            .meme-sidebar { width: 90%; max-width: 400px; height: 300px; }
+            .player-name { font-size: 2rem; }
         }
     </style>
 </head>
@@ -104,10 +121,14 @@
 
     <div class="player-name">Shortywomen#MST</div>
 
+    <div class="meme-sidebar" id="leftMeme">
+        <img src="https://i.imgur.com/G5T833Q.jpeg" alt="Bard Meme">
+    </div>
+
     <div class="main-card">
         <div class="header">
             <div class="bell-icon" onclick="playBard()">🔔</div>
-            <h1>OOTAY</h1>
+            <h1 style="color: var(--gold); margin: 10px 0 5px; letter-spacing: 3px;">OOTAY</h1>
             <div style="opacity: 0.6; font-size: 0.8rem;">~ The Wandering Caretaker ~</div>
         </div>
 
@@ -118,7 +139,7 @@
         <div class="stats-container">
             <div class="stat-card">
                 <div class="stat-label">Winrate</div>
-                <div>Just dont ask...</div>
+                <div>Just don't ask...</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">KDA</div>
@@ -129,7 +150,7 @@
         <div class="progress-section">
             <span style="font-size: 0.8rem;">ADC Mental State: 0%</span>
             <div class="bar-bg"><div class="bar-fill" style="width: 2%;"></div></div>
-            <span style="font-size: 0.8rem;">Chimes: 100%</span>
+            <span style="font-size: 0.8rem;">Chimes Collected: 100%</span>
             <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
         </div>
 
@@ -138,18 +159,53 @@
             <ul style="margin: 5px 0; padding-left: 20px;">
                 <li>My Ult only saves the enemies.</li>
                 <li>0/10 is "Cosmic Baiting".</li>
-                <li>Its always Jungle Gap.</li>
+                <li>It's always Jungle Gap.</li>
             </ul>
         </div>
 
         <a href="https://www.op.gg/summoners/euw/Shortywomen-MST" target="_blank" class="btn">VIEW LIVE INTING</a>
     </div>
 
+    <div class="meme-sidebar" id="rightMeme">
+        <img src="https://i.imgur.com/OatgQjA.jpeg" alt="Bard Meme">
+    </div>
+
     <script>
         function playBard() {
-            var audio = new Audio('https://static.wikia.nocookie.net/leagueoflegends/images/a/a8/Bard_Select.ogg');
-            audio.play();
+            new Audio('https://static.wikia.nocookie.net/leagueoflegends/images/a/a8/Bard_Select.ogg').play();
         }
+
+        const memes = [
+            'https://i.imgur.com/G5T833Q.jpeg',
+            'https://i.imgur.com/OatgQjA.jpeg',
+            'https://i.imgur.com/c48q12u.jpeg',
+            'https://i.imgur.com/oWbW6nB.jpeg',
+            'https://i.imgur.com/fA79l9v.jpeg'
+        ];
+
+        function updateMemes() {
+            const left = document.querySelector('#leftMeme img');
+            const right = document.querySelector('#rightMeme img');
+            
+            // Wählt zwei zufällige, unterschiedliche Memes
+            let rand1 = Math.floor(Math.random() * memes.length);
+            let rand2 = Math.floor(Math.random() * memes.length);
+            while(rand1 === rand2) rand2 = Math.floor(Math.random() * memes.length);
+
+            // Sanfter Übergang (Opacity)
+            document.getElementById('leftMeme').style.opacity = 0;
+            document.getElementById('rightMeme').style.opacity = 0;
+
+            setTimeout(() => {
+                left.src = memes[rand1];
+                right.src = memes[rand2];
+                document.getElementById('leftMeme').style.opacity = 1;
+                document.getElementById('rightMeme').style.opacity = 1;
+            }, 500);
+        }
+
+        // Alle 7 Sekunden wechseln
+        setInterval(updateMemes, 7000);
     </script>
 
 </body>
